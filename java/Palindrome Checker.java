@@ -17,18 +17,18 @@ public class PalindromeChecker {
     }
 
     public static boolean isPalindrome(String str) {
-        str = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        str = str.replaceAll("[^a-zA-Z0-9]", "").toLowerCase(); // remove non-alphanumeric characters and convert to lowercase
         int left = 0;
         int right = str.length() - 1;
         
         while (left < right) {
             if (str.charAt(left) != str.charAt(right)) {
-                return false;
+                return false; // if characters don't match, it's not a palindrome
             }
             left++;
             right--;
         }
         
-        return true;
+        return true; // if all characters match, it's a palindrome
     }
 }
