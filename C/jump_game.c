@@ -3,6 +3,11 @@
 
 bool canJump(int *nums, int numsSize)
 {
+    if (numsSize == 0) // Check if the input array is empty
+    {
+        return false;
+    }
+
     int maxReach = 0;
 
     for (int i = 0; i < numsSize; i++)
@@ -14,7 +19,10 @@ bool canJump(int *nums, int numsSize)
         }
 
         // Update the maximum reachable position
-        maxReach = (i + nums[i] > maxReach) ? (i + nums[i]) : maxReach;
+        if (i + nums[i] > maxReach)
+        {
+            maxReach = i + nums[i];
+        }
 
         // If we can reach the end of the array, return true
         if (maxReach >= numsSize - 1)
