@@ -8,8 +8,15 @@
       color: red;
     }
   </style>
+  <title>Dynamic Name Example</title>
 </head>
 <body>
-  <p>Hello {name}</p>
+  <p id="greeting">Hello <span id="name"></span></p>
+
+  <script>
+    // JavaScript to dynamically set the name
+    const name = "John"; // Replace "John" with the desired name
+    document.getElementById("name").innerText = name;
+  </script>
 </body>
 </html>
