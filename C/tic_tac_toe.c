@@ -1,9 +1,5 @@
-/* Tic Tac Toe Game by AJTimePyro */
-
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <time.h>
 
 // Defined Few Numbers
@@ -11,7 +7,6 @@
 #define ONE 1
 #define TWO 2
 #define THREE 3
-#define SIX 6
 
 // Special Characters
 const char space = ' ';
@@ -27,30 +22,12 @@ char players[] = {
 
 // Tic Tac Toe Matrix
 char tic_tac_toe[THREE][THREE] = {
-    
-    {
-        '1',
-        '2',
-        '3'
-    },
-
-    {
-        '4',
-        '5',
-        '6'
-    },
-
-    {
-        '7',
-        '8',
-        '9'
-    }
-
+    {'1', '2', '3'},
+    {'4', '5', '6'},
+    {'7', '8', '9'}
 };
 
-
 // Some Useful Functions
-
 
 /* To Print Single Character */
 void print(char input) {
@@ -59,7 +36,6 @@ void print(char input) {
 
 /* To Print multiple whitespaces in line */
 void printWhiteSpaces(int num_of_space) {
-
     while (num_of_space) {
         print(space);
         num_of_space--;
@@ -68,13 +44,11 @@ void printWhiteSpaces(int num_of_space) {
 
 /* To Print multiple underscores in line */
 void printUnderscores(int num_of_underscore) {
-
     while (num_of_underscore) {
         print(underscore);
         num_of_underscore--;
     }
 }
-
 
 /*
     To Print Pattern with 5 spaces, then Pipe
@@ -82,14 +56,9 @@ void printUnderscores(int num_of_underscore) {
     finally 5 more spaces
 */
 void printEmptyRow() {
-    /*
-        '    |     |     '
-    */
-
     for (int i = ZERO; i < TWO; i++) {
         printWhiteSpaces(5);
         print(pipe);
-
         if (i == ONE) {
             printWhiteSpaces(5);
         }
@@ -97,18 +66,15 @@ void printEmptyRow() {
     print(nextline);
 }
 
-
 /*
     To Print Same Pattern as in printEmptyRow function
     but with space to Enter user's input
 */
 void printInputRow(int row_num) {
-
     for (int j = ZERO; j < THREE; j++) {
         printWhiteSpaces(TWO);
         printf("%c", tic_tac_toe[row_num][j]);
         printWhiteSpaces(TWO);
-
         if (j != TWO) {
             print(pipe);
         }
@@ -116,15 +82,12 @@ void printInputRow(int row_num) {
     print(nextline);
 }
 
-
 /* 
     To Print this Pattern
     _____|_____|_____
 */
 void printUnderlineRow() {
-
     for (int k = ZERO; k < THREE; k++) {
-
         printUnderscores(5);
         if (k != TWO) {
             print(pipe);
@@ -133,36 +96,20 @@ void printUnderlineRow() {
     print(nextline);
 }
 
-
 /*
     To Construct and print the body of Tic Tac Toe
 */
 void body() {
-    /*
-             |     |     
-             |     |     
-        _____|_____|_____
-             |     |     
-             |     |     
-        _____|_____|_____
-             |     |     
-             |     |     
-             |     |     
-    */
-
     for (int l = ZERO; l < THREE; l++) {
         printEmptyRow();
         printInputRow(l);
-
         if (l != TWO) {
             printUnderlineRow();
-        }
-        else {
+        } else {
             printEmptyRow();
         }
     }
 }
-
 
 /*
     It will update tic_tac_toe matrix
@@ -171,33 +118,25 @@ void body() {
     else return false if already filled
 */
 bool updateArray(int upNum, char player) {
-
     int column, row;
     int remainder = upNum % THREE;
     int quotient = upNum / THREE;
     if (remainder == ZERO) {
         column = THREE;
         row = quotient - ONE;
-    }
-    else {
+    } else {
         column = remainder;
         row = quotient;
     }
     column--;
 
     char element = tic_tac_toe[row][column];
-    for (int playerIter = ZERO; playerIter < TWO; playerIter++) {
-        if (players[playerIter] != element) {
-            continue;
-        }
-        else {
-            return false;
-        }
+    if (element == players[ZERO] || element == players[ONE]) {
+        return false;
     }
     tic_tac_toe[row][column] = player;
     return true;
 }
-
 
 /*
     It will check the array to find the match,
@@ -205,35 +144,15 @@ bool updateArray(int upNum, char player) {
     else return false if not find the match
 */
 bool chkAllEqual(char lineArr[THREE]) {
-    for (int r = ZERO; r < THREE; r++) {
-
-        if (r >= ONE) {
-            if (lineArr[r] != lineArr[r - ONE]) {
-                return false;
-            }
-            else {
-                if (r == ONE) {
-                    continue;
-                }
-                else {
-                    return true;
-                }
-            }
-        }
-    }
+    return (lineArr[ZERO] == lineArr[ONE] && lineArr[ONE] == lineArr[TWO]);
 }
-
 
 /*
     It will check for winner in all given array,
     it will return Player char who won,
     but if not found then returns '0'
 */
-char chkTwoCase(
-    char box1[],
-    char box2[]
-    ) {
-
+char chkTwoCase(char box1[], char box2[]) {
     if (chkAllEqual(box1)) {
         return box1[ZERO];
     }
@@ -245,21 +164,18 @@ char chkTwoCase(
     }
 }
 
-
 /*
     Checks all possible match to win and
     return player char if any player won
     else return '0'
 */
 char chkAllCases() {
-
     char box1[THREE];
     char box2[THREE];
     char res;
 
     // In Rows and Columns
     for (int a = ZERO; a < THREE; a++) {
-
         for (int b = ZERO; b < THREE; b++) {
             box1[b] = tic_tac_toe[a][b];
             box2[b] = tic_tac_toe[b][a];
@@ -277,28 +193,21 @@ char chkAllCases() {
     }
 
     // Check all Cases
-    res = chkTwoCase(
-        box1,
-        box2
-    );
-
+    res = chkTwoCase(box1, box2);
     return res;
 }
-
 
 /*
     To Clear the terminal in each updates
 */
 void clr() {
-    system("@cls||clear");
+    system("cls||clear");
 }
-
 
 /*
     It will run the game
 */
 void game() {
-
     clr();
     body();
 
@@ -308,16 +217,14 @@ void game() {
     char player;
     bool result;
 
-    srand( time(NULL) );
-    playeritr = rand()%TWO;
+    srand(time(NULL));
+    playeritr = rand() % TWO;
 
     while (true) {
-
         if (round == 9) {
-            printf("Match Has been Draw");
+            printf("Match Has been Draw\n");
             break;
-        }
-        else {
+        } else {
             player = players[playeritr];
 
             printf("For Player %c\n", player);
@@ -326,24 +233,21 @@ void game() {
             clr();
 
             if (input >= ONE && input <= 9) {
-
                 result = updateArray(input, player);
                 if (result) {
                     round++;
                     playeritr = -playeritr + ONE;   // Converts 1 to 0 & 0 to 1
-                    char result = chkAllCases();
+                    char winner = chkAllCases();
 
-                    if (result != '0') {
+                    if (winner != '0') {
                         body();
-                        printf("Player %c is The Winner.\n", result);
+                        printf("Player %c is The Winner.\n", winner);
                         break;
                     }
-                }
-                else {
+                } else {
                     printf("Box already filled\n");
                 }
-            }
-            else {
+            } else {
                 printf("Input Should be in Range of 1 to 9\n");
             }
 
@@ -352,7 +256,7 @@ void game() {
     }
 }
 
-
-void main() {
+int main() {
     game();
+    return 0;
 }
